@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+body {
+  font-family: "Work Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+:root {
+  --primary-color: #413c6d;
+  --secondary: #120b48;
+  --white-color: #fff;
+  --primary-200: #928fab;
+}
+main {
+  min-width: 350px;
+  border-radius: 15px;
+  display: grid;
+  gap: 25px;
+  padding: 20px;
+}
+i {
+  font-size: 20px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+section {
+  display: grid;
+  gap: 10px;
+}
+
+.description p {
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.full-screen,
+.current-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section .display-control {
+  font-weight: 600;
+  justify-content: center;
+  gap: 30px;
+}
+
+.display-control button {
+  color: var(--primary-200);
+}
+
+.display-control p {
+  font-size: 20px;
+}
+.display-control i {
+  font-size: 30px;
+}
+
+.active {
+  color: var(--secondary) !important;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--secondary);
+  padding: 5px 10px;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.control div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control div i,
+.control div h3 {
+  font-size: 20px;
+  color: var(--secondary);
+}
+
+#start {
+  background: var(--secondary);
+  padding: 15px;
+  color: var(--white-color);
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.toggle {
+  height: 40px;
+  background: red;
+  border-radius: 10px;
+  width: 60px;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.toggle input {
+  width: 50%;
+  height: 100%;
+  border-radius: 10px;
+  background: black;
+  border: none;
+  outline: none;
+}
