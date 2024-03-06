@@ -14,7 +14,7 @@ style.textContent = `
     /* cursor: pointer; */
     padding: 12px 40px 12px 16px;
     border-radius: 60px;
-    height: 55px;
+    height: auto;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -135,4 +135,10 @@ document.addEventListener("mousemove", (e) => {
 
 document.addEventListener("mouseup", () => {
   isDragging = false;
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "start-recording") {
+    console.log("Requesting recording");
+  }
 });

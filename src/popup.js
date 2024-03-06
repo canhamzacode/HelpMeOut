@@ -11,4 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     currentTab.classList.add("active");
     fullscreen.classList.remove("active");
   });
+
+  const startRecording = document.getElementById("start");
+  startRecording.addEventListener("click", () => {
+    chrome.runtime.sendMessage({ action: "start-recording" });
+  });
 });

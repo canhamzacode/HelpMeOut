@@ -7,7 +7,7 @@
     "default_popup": "index.html",
     "default_icon": "./img/logo-icon.png"
   },
-  "permissions": ["tabs", "windows"],
+  "permissions": ["tabs", "windows", "desktopCapture", "activeTab"],
   "icons": {
     "16": "./img/logo-icon.png",
     "48": "./img/logo-icon.png",
@@ -18,5 +18,8 @@
       "js": ["content.js"],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
