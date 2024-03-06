@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.windows.getAll((windows) => {
-    console.log(windows);
-    const popupWindowId =
-      windows.find((window) => window.type === "popup")?.id || null;
+  const fullscreen = document.getElementById("full-screen");
+  const currentTab = document.getElementById("current-tab");
 
-    // Add event listener to close button
-    let closeExtension = document.getElementById("close-extension");
-    closeExtension.addEventListener("click", () => {
-      // Close the popup window using its ID
-      chrome.windows.remove(popupWindowId);
-    });
+  fullscreen.addEventListener("click", () => {
+    fullscreen.classList.add("active");
+    currentTab.classList.remove("active");
   });
-  // chrome.tabs.query
+
+  currentTab.addEventListener("click", () => {
+    currentTab.classList.add("active");
+    fullscreen.classList.remove("active");
+  });
 });

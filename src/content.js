@@ -6,18 +6,25 @@ style.textContent = `
     position: fixed;
     bottom: 20px;
     left: 50px;
+    /* padding: 5px 10px; */
     background-color: #141414;
     color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
+    /* cursor: pointer; */
     padding: 12px 40px 12px 16px;
     border-radius: 60px;
-    min-height: 50px;
+    height: 55px;
     display: flex;
     gap: 10px;
     align-items: center;
     min-width: 250px;
     z-index: 10000;
+    transition: left 0.2s, bottom 0.2s;
+    justify-content: center;
+  }
+  #overlay::selection {
+    background-color: transparent;
   }
   .glow {
     background: #c00404;
@@ -34,8 +41,6 @@ style.textContent = `
     height: 100%;
     padding-right: 10px;
     border-right: 2px solid #fff;
-    align-items: center;
-    justify-content: center;
   }
   .control {
     width: 44px;
@@ -45,7 +50,6 @@ style.textContent = `
     display: flex;
     align-items: center;
     justify-content: center;
-
   }
   .flex div {
     display: flex;
@@ -107,3 +111,28 @@ overlay.innerHTML = `
   </div>
 `;
 document.body.appendChild(overlay);
+
+let isDragging = false;
+let initialX, initialY, startLeft, startTop;
+
+overlay.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  initialX = e.clientX;
+  initialY = e.clientY;
+  startLeft = overlay.offsetLeft;
+  startTop = overlay.offsetTop;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (isDragging) {
+    const deltaX = e.clientX - initialX;
+    const deltaY = e.clientY - initialY;
+
+    overlay.style.left = startLeft + deltaX + "px";
+    overlay.style.top = startTop + deltaY + "px";
+  }
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+});
