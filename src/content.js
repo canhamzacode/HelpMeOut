@@ -1,4 +1,3 @@
-console.log("Content Injected Sucessfully");
 // Inject styles
 const style = document.createElement("style");
 style.textContent = `
@@ -15,7 +14,8 @@ style.textContent = `
     /* cursor: pointer; */
     padding: 12px 40px 12px 16px;
     border-radius: 60px;
-    height: auto;
+    min-height: 70px;
+    max-height: 95px;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -85,13 +85,13 @@ overlay.innerHTML = `
     <div class="glow"></div>
   </div>
   <div class="flex controls">
-    <div>
+    <div id="pause">
       <div class="control">
         <i class="fa-solid fa-pause"></i>
       </div>
       <span> Pause</span>
     </div>
-    <div>
+    <div id="stop">
       <div class="control">
         <i class="fa-solid fa-stop"></i>
       </div>
@@ -138,14 +138,75 @@ document.addEventListener("mouseup", () => {
   isDragging = false;
 });
 
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  console.log(message.action);
-  chrome.runtime.onMessage.addListener(
-    async (message, sender, sendResponse) => {
-      if (message.action === "start-recording") {
-        console.log("Content Script - Requesting recording");
-        chrome.runtime.sendMessage({ action: "start-recording-request" });
+const stopRecording = document.getElementById("stop");
+const pauseRecording = document.getElementById("pause");
+
+var recorder = null;
+function onAcessApproved(stream) {
+  recorder = new MediaRecorder(stream);
+
+  recorder.start();
+
+  recorder.onstop = function () {
+    stream.getTracks().forEach((track) => {
+      if (track.readyState === "live") {
+        track.stop();
       }
+    });
+  };
+
+  recorder.onpause = function () {
+    console.log("Recording paused");
+    stream.getTracks().forEach((track) => {
+      track.onpause();
+    });
+  };
+
+  recorder.onresume = function () {
+    console.log("Recording resumed");
+    stream.getTracks().forEach((track) => {
+      track.onresume();
+    });
+  };
+
+  recorder.ondataavailable = function (event) {
+    var blob = new Blob([event.data], { type: "video/webm" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "test.webm";
+    a.click();
+
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    if (url) {
+      url.revokeObjectURL(url);
     }
-  );
+  };
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "request-recording") {
+    console.log("Content Script - Requesting recording");
+
+    sendResponse(`Processed ${message.action}`);
+
+    navigator.mediaDevices
+      .getDisplayMedia({
+        audio: true,
+        width: 9999999,
+        height: 99999999,
+      })
+      .then((stream) => {
+        onAcessApproved(stream);
+      });
+  }
+});
+
+stopRecording.addEventListener("click", () => {
+  console.log("Popup - Requesting recording button Clicked");
+  if (!recorder) return console.error("Recorder not found");
+  recorder.stop();
 });

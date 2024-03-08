@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const startRecording = document.getElementById("start");
   const fullscreen = document.getElementById("full-screen");
   const currentTab = document.getElementById("current-tab");
 
@@ -12,12 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
     fullscreen.classList.remove("active");
   });
 
-  const startRecording = document.getElementById("start");
   startRecording.addEventListener("click", () => {
     console.log("Popup - Requesting recording button Clicked");
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, { action: "start-recording" });
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { action: "request-recording" },
+        function (response) {
+          if (!chrome.runtime.lastError) {
+            console.log("Popup - Requesting recording", response);
+          } else {
+            console.log(chrome.runtime.lastError, "line 27");
+          }
+        }
+      );
     });
   });
 });
