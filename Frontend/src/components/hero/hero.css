@@ -1,0 +1,43 @@
+.heroContainer {
+  height: 400px;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "topLeft right"
+    "bottomLeft right";
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  gap: 10px;
+}
+
+.topLeft {
+  width: 100%;
+  grid-area: topLeft;
+}
+
+.right {
+  width: 100%;
+  grid-area: right;
+}
+
+.bottomLeft {
+  width: 100%;
+  grid-area: bottomLeft;
+}
+
+@media screen and (max-width: 500px) {
+  .heroGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "topLeft"
+      "bottomLeft"
+      "right";
+  }
+}
