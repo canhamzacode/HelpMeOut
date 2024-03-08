@@ -1,3 +1,4 @@
+console.log("Content Injected Sucessfully");
 // Inject styles
 const style = document.createElement("style");
 style.textContent = `
@@ -137,8 +138,14 @@ document.addEventListener("mouseup", () => {
   isDragging = false;
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "start-recording") {
-    console.log("Requesting recording");
-  }
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  console.log(message.action);
+  chrome.runtime.onMessage.addListener(
+    async (message, sender, sendResponse) => {
+      if (message.action === "start-recording") {
+        console.log("Content Script - Requesting recording");
+        chrome.runtime.sendMessage({ action: "start-recording-request" });
+      }
+    }
+  );
 });
