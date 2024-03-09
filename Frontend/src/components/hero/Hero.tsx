@@ -8,7 +8,7 @@ import "./hero.css";
 
 const Hero = () => {
   return (
-    <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-5 items-center px-5 py-5 md:px-20 sm:px-10  border-y-2 border-y-[grey]">
+    <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-5 items-center px-5 py-5 md:px-20 sm:px-10  border-y-2 border-y-grey-light">
       <div className="w-full flex flex-col gap-6">
         <h1 className="font-sora sm:text-6xl text-5xl font-bold">
           Show Them <br />

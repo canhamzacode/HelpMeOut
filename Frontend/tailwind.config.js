@@ -9,6 +9,8 @@ export default {
       "text-primary": "#141414",
       primary: "#120B48",
       grey: "#616163",
+      "grey-light": "#E7E7ED",
+      transparent: "transparent",
     },
     fontFamily: {
       sora: ["Sora", "sans-serif"],
