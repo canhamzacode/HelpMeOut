@@ -5,7 +5,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { BiSearch } from "react-icons/bi";
 import DashboardCard from "../../components/dashboardCard/DashboardCard";
 import { TbLogout2 } from "react-icons/tb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
 
 const Dashboard = () => {
@@ -13,6 +13,14 @@ const Dashboard = () => {
   const toggleModal = () => {
     setModal(!modal);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      document.body.style.overflow = modal ? "hidden" : "auto";
+    };
+    handleScroll();
+  }, [modal]);
+
   return (
     <main className="relative">
       {modal && (
@@ -26,7 +34,7 @@ const Dashboard = () => {
             alt="Help Me Out Logo"
             className="flex sm:hidden"
           />
-          <div className="flex gap-3 justify-between items-center relative bg-white  md:w-[250px] w-[200px] z-20">
+          <div className="flex gap-3 justify-between items-center relative bg-white rounded-t  md:w-[250px] w-[200px] z-20">
             <div className="flex gap-3 items-center  p-2">
               <button className="bg-grey-light w-[40px] h-[40px] flex items-center justify-center rounded-[50%]">
                 <CgProfile size={30} />
@@ -37,7 +45,7 @@ const Dashboard = () => {
               <MdKeyboardArrowDown size={25} />
             </button>
             {modal && (
-              <div className="absolute left-0 md:w-[250px] w-[200px] p-2 bg-white border-t border-grey-light grid top-[50px]  ">
+              <div className="absolute left-0 md:w-[250px] w-[200px] p-2 rounded-b bg-white border-t border-grey-light grid top-[50px]  ">
                 <div className="flex">
                   <div className="flex items-center gap-2">
                     <TbLogout2 size={25} />
