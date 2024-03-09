@@ -1,14 +1,17 @@
-import Features from "./components/features/Features";
-import Hero from "./components/hero/Hero";
-import Navbar from "./components/navbar/Navbar";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/home/Home";
+import Auth from "./pages/auth/Auth";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <Hero />
-      <Features />
-    </div>
+    <Routes>
+      <Route path="/">
+        <Route path="/" element={<Home />} />
+        <Route path="/auth/*" element={<Auth />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+    </Routes>
   );
 }
 

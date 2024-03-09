@@ -18,7 +18,7 @@ const Navbar = () => {
       <ul
         className={`md:flex gap-4 font-medium text-text-primary    ${
           showMobileMenu
-            ? "text-white absolute top-[70px] bg-black w-full left-0 p-4"
+            ? "text-white absolute top-[66px] bg-primary w-full left-0 p-4"
             : "hidden"
         }`}
       >

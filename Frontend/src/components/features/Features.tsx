@@ -8,7 +8,7 @@ const Features = () => {
   return (
     <div className="w-full grid gap-6 items-center  md:px-20 sm:px-10 px-5 py-6 ">
       <div className="w-full text-center grid gap-2">
-        <h3 className="text-text-primary text-[40px] font-sora font-bold">
+        <h3 className="text-text-primary md:text-4xl text-3xl font-sora font-bold">
           Features
         </h3>
         <p className="text-lg font-workSans text-grey">
