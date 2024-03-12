@@ -12,14 +12,21 @@
     "windows",
     "desktopCapture",
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "icons": {
     "16": "./img/logo-icon.png",
     "48": "./img/logo-icon.png",
     "128": "./img/logo-icon.png"
   },
-  "host_permissions": ["http://*/", "https://*/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["./img/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
   }
