@@ -1,4 +1,40 @@
 console.log("Contemt.js 1");
+var globalData = {};
+
+chrome.storage.local.get("permissions", (data) => {
+  if (data && data.permissions) {
+    globalData = data.permissions;
+
+    // Check the stored webcam value and update display accordingly
+    if (globalData.webcam) {
+      userCam.style.display = "flex";
+    } else {
+      userCam.style.display = "none";
+    }
+  } else {
+    globalData = {
+      audio: false,
+      video: true,
+      webcam: false,
+      displayOverlay: false,
+    };
+  }
+});
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === "local" && changes.permissions) {
+      console.log(changes.permissions);
+      globalData = changes.permissions.newValue;
+
+      if (globalData.webcam) {
+        userCam.style.display = "flex";
+      } else {
+        userCam.style.display = "none";
+      }
+    }
+  });
+});
 
 // Get all style elements in the document
 var styles = document.getElementsByName("style");
@@ -105,7 +141,6 @@ if (styles.length > 0) {
 
 // Create a new style element
 var myStyle = document.createElement("style");
-myStyle.id = "@extensionStyle";
 myStyle.textContent = `
   #overlay {
     cursor: grab;
@@ -120,8 +155,7 @@ myStyle.textContent = `
     /* cursor: pointer; */
     padding: 12px 40px 12px 16px;
     border-radius: 60px;
-    min-height: 70px;
-    max-height: 95px;
+    height: 70px;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -140,11 +174,11 @@ myStyle.textContent = `
     color: #fff;
     border: 1px solid #ccc;
     border-radius: 50%;
-    height: 150px;
+    height: 100px;
     display: flex;
     gap: 10px;
     align-items: center;
-    width: 150px;
+    width: 100px;
     z-index: 10000;
     transition: left 0.2s, bottom 0.2s;
     justify-content: center;
@@ -317,12 +351,16 @@ function onAcessApproved(stream) {
     });
   };
 
-  recorder.onpause = function () {
-    console.log("Recording paused");
-    stream.getTracks().forEach((track) => {
-      track.onpause();
-    });
+  recorder.pause = function () {
+    console.log("Recording Paused");
   };
+
+  // recorder.onpause = function () {
+  //   console.log("Recording paused");
+  //   stream.getTracks().forEach((track) => {
+  //     track.pause();
+  //   });
+  // };
 
   recorder.onresume = function () {
     console.log("Recording resumed");
@@ -403,6 +441,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
 
     startCam(defaultData.audio);
+  }
+  if (message.action === "camera-toggle") {
+    console.log("Content Script - webcam toggled");
+
+    sendResponse(`Processed ${message.action}`);
+    userCam.style.display = globalData.webcam ? "flex" : "none";
   }
 });
 
