@@ -289,6 +289,8 @@ userCam.innerHTML = `
 <video id="videoElement" autoplay="true"></video>
 `;
 
+var videoElement = document.getElementById("videoElement");
+
 document.body.appendChild(overlay);
 document.body.appendChild(userCam);
 
@@ -447,6 +449,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     sendResponse(`Processed ${message.action}`);
     userCam.style.display = globalData.webcam ? "flex" : "none";
+
+    // Start or stop webcam stream based on toggle state
+    if (globalData.webcam) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: globalData.audio })
+        .then(function (stream) {
+          console.log(stream);
+          videoElement.srcObject = stream;
+        })
+        .catch(function (error) {
+          console.log("Error accessing webcam:", error);
+        });
+    } else {
+      // Stop webcam stream if it's running
+      if (userCam.srcObject) {
+        userCam.srcObject.getTracks().forEach((track) => track.stop());
+        userCam.srcObject = null;
+      }
+    }
   }
 });
 

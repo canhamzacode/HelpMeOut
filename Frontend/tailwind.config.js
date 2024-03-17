@@ -11,6 +11,7 @@ export default {
       grey: "#616163",
       "grey-light": "#E7E7ED",
       transparent: "transparent",
+      "primary-400": "#413C6D",
     },
     fontFamily: {
       sora: ["Sora", "sans-serif"],
