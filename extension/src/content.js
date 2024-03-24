@@ -22,18 +22,16 @@ chrome.storage.local.get("permissions", (data) => {
 });
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-  chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === "local" && changes.permissions) {
-      console.log(changes.permissions);
-      globalData = changes.permissions.newValue;
+  if (namespace === "local" && changes.permissions) {
+    console.log(changes.permissions);
+    globalData = changes.permissions.newValue;
 
-      if (globalData.webcam) {
-        userCam.style.display = "flex";
-      } else {
-        userCam.style.display = "none";
-      }
+    if (globalData.webcam) {
+      userCam.style.display = "flex";
+    } else {
+      userCam.style.display = "none";
     }
-  });
+  }
 });
 
 // Get all style elements in the document
@@ -231,6 +229,12 @@ myStyle.textContent = `
     color: #141414;
     font-size: 18px;
   }
+  #pause div.control{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
 `;
 
 // Append the new style element to the document head
@@ -241,13 +245,6 @@ var userCam = document.createElement("div");
 userCam.id = "userCam";
 overlay.id = "overlay";
 
-// icon location
-var playIcon = chrome.runtime.getURL("img/pause-icon.png");
-var stopIcon = chrome.runtime.getURL("img/stop.png");
-var cameraIcon = chrome.runtime.getURL("img/video.png");
-var cameraCrossIcon = chrome.runtime.getURL("img/video-slash.png");
-var micIcon = chrome.runtime.getURL("img/mic-icon.png");
-
 // Inject overlay HTML
 overlay.innerHTML = `
   <div class="flex time">
@@ -257,39 +254,41 @@ overlay.innerHTML = `
   <div class="flex controls">
     <div id="pause">
       <div class="control">
-      <img src="${chrome.runtime.getURL(
-        "./img/pause-icon.png"
-      )}" alt="pause icon" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="14" viewBox="0 0 2 14" fill="none">
+          <path d="M1 1.5L1 12.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="14" viewBox="0 0 2 14" fill="none">
+          <path d="M1 1.5L1 12.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
+        </svg>
       </div>
       <span> Pause</span>
     </div>
     <div id="stop">
       <div class="control">
-      <img src="${stopIcon}" alt="stop icon" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M5.25 7.5C5.25 6.25736 6.25736 5.25 7.5 5.25H16.5C17.7426 5.25 18.75 6.25736 18.75 7.5V16.5C18.75 17.7426 17.7426 18.75 16.5 18.75H7.5C6.25736 18.75 5.25 17.7426 5.25 16.5V7.5Z" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
       <span>Stop</span>
     </div>
     <div id="camera">
       <div class="control">
-      <img src="${cameraIcon}" alt="video" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M15.75 10.5L20.4697 5.78033C20.9421 5.30786 21.75 5.64248 21.75 6.31066V17.6893C21.75 18.3575 20.9421 18.6921 20.4697 18.2197L15.75 13.5M4.5 18.75H13.5C14.7426 18.75 15.75 17.7426 15.75 16.5V7.5C15.75 6.25736 14.7426 5.25 13.5 5.25H4.5C3.25736 5.25 2.25 6.25736 2.25 7.5V16.5C2.25 17.7426 3.25736 18.75 4.5 18.75Z" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
       <span>Camera</span>
     </div>
     <div id="microphone">
       <div class="control">
-      <img src="${micIcon}" alt="mic-icon" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 18.75C15.3137 18.75 18 16.0637 18 12.75V11.25M12 18.75C8.68629 18.75 6 16.0637 6 12.75V11.25M12 18.75V22.5M8.25 22.5H15.75M12 15.75C10.3431 15.75 9 14.4069 9 12.75V4.5C9 2.84315 10.3431 1.5 12 1.5C13.6569 1.5 15 2.84315 15 4.5V12.75C15 14.4069 13.6569 15.75 12 15.75Z" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
       <span>Mic</span>
     </div>
   </div>
 `;
-
-// insert usercam into the browser
-userCam.innerHTML = `
-<video id="videoElement" autoplay="true"></video>
-`;
-
-var videoElement = document.getElementById("videoElement");
 
 document.body.appendChild(overlay);
 document.body.appendChild(userCam);
@@ -400,12 +399,37 @@ if (!recorder) {
 
 var webcamStream = null;
 
+// Function to stop the webcam stream
+function stopCam() {
+  if (webcamStream) {
+    // Get all tracks and stop them
+    webcamStream.getTracks().forEach((track) => track.stop());
+
+    // Clear the srcObject property of the video element
+    if (userCam.firstChild) {
+      userCam.firstChild.srcObject = null;
+    }
+
+    // Reset the webcamStream variable
+    webcamStream = null;
+  }
+}
+
 // webcam function
 function startCam(audioState) {
+  // stop any running instances of the webcam
+  stopCam();
+
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: audioState })
       .then((vidStream) => {
+        webcamStream = vidStream;
+        var videoElement = document.createElement("video");
+        videoElement.autoplay = true;
+        videoElement.srcObject = vidStream;
+        userCam.innerHTML = "";
+        userCam.appendChild(videoElement);
         console.log(vidStream);
       })
       .catch(function (error) {
@@ -414,16 +438,18 @@ function startCam(audioState) {
   }
 }
 
-// Function to stop the webcam stream
-function stopCam() {
-  if (webcamStream) {
-    // Get all tracks and stop them
-    webcamStream.getTracks().forEach((track) => track.stop());
+chrome.storage.local.get("permissions", (data) => {
+  if (data && data.permissions) {
+    globalData = data.permissions;
 
-    // Reset the webcamStream variable
-    webcamStream = null;
+    // Check the stored webcam value and update display accordingly
+    if (globalData.webcam) {
+      startCam(globalData.audio);
+    } else {
+      stopCam();
+    }
   }
-}
+});
 
 // listen to the request-recording from index.html popup script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -449,20 +475,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     sendResponse(`Processed ${message.action}`);
     userCam.style.display = globalData.webcam ? "flex" : "none";
+    globalData.webcam ? startCam(globalData.audio) : stopCam();
 
     // Start or stop webcam stream based on toggle state
     if (globalData.webcam) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: globalData.audio })
-        .then(function (stream) {
-          console.log(stream);
-          videoElement.srcObject = stream;
-        })
-        .catch(function (error) {
-          console.log("Error accessing webcam:", error);
-        });
+      startCam(globalData.audio);
     } else {
       // Stop webcam stream if it's running
+      stopCam();
       if (userCam.srcObject) {
         userCam.srcObject.getTracks().forEach((track) => track.stop());
         userCam.srcObject = null;

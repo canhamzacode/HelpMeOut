@@ -22,8 +22,8 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["./img/mic-icon.png"],
-      "matches": ["<all_urls>"]
+      "resources": [],
+      "matches": ["*://*/*"]
     }
   ],
   "host_permissions": ["<all_urls>"],
