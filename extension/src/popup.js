@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var currentTab = document.getElementById("current-tab");
   var exitBtn = document.getElementById("close-extension");
   var cameraToggleBtn = document.getElementById("camera-toggle-btn");
+  var audioToggleBtn = document.getElementById("audio-toggle-btn");
   console.log(cameraToggleBtn);
 
   var globalData = {};
@@ -17,6 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         cameraToggleBtn.checked = false;
       }
+      if (globalData.audio) {
+        audioToggleBtn.checked = true;
+      } else {
+        audioToggleBtn.checked = false;
+      }
     } else {
       globalData = {
         audio: false,
@@ -28,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   cameraToggleBtn.checked = globalData.webcam;
+  audioToggleBtn.checked = globalData.audio;
 
   function saveData() {
     chrome.storage.local.set({ permissions: globalData }, () => {
@@ -42,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   cameraToggleBtn.addEventListener("change", (event) => {
-    console.log("Toggle");
+    console.log("Toggle Camera");
 
     updateData({ webcam: event.target.checked });
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -61,6 +68,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateData({ webcam: event.target.checked });
     chrome.runtime.sendMessage({ action: "camera-toggle", data: globalData });
+  });
+
+  audioToggleBtn.addEventListener("change", (event) => {
+    console.log("Toggle audio");
+
+    updateData({ audio: event.target.checked });
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { action: "audio-toggle" },
+        function (response) {
+          if (!chrome.runtime.lastError) {
+            console.log("Popup - Requesting webcam", response);
+          } else {
+            console.log(chrome.runtime.lastError, "line 85");
+          }
+        }
+      );
+    });
   });
 
   function createSvg(iconName, color) {
