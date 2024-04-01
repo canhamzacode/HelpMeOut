@@ -383,7 +383,6 @@ var stopRecordingBtn = document.getElementById("stop");
 var resumeRecordingBtn = document.getElementById("resume");
 var pauseRecordingBtn = document.getElementById("pause");
 var cameraBtn = document.getElementById("camera");
-// var microphoneBtn = document.getElementById("micropone");
 var microphoneBtn = document.querySelector("#microphone .control");
 
 // recording stream handler
@@ -393,7 +392,8 @@ var videoStream = null;
 function onAcessApproved(stream) {
   console.log(stream);
   recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
-  console.log(recorder.stream);
+  recorder.start();
+  console.log("Recorder line 396", recorder.stream);
 
   recorder.onstop = function () {
     console.log(stream);
@@ -431,9 +431,9 @@ function onAcessApproved(stream) {
 
     // Create a download link for the recorded video
     var a = document.createElement("a");
+    window.open(`${url}`, "_blank");
     a.href = url;
     a.download = "recorded_video.webm"; // Set the filename for the downloaded video
-
     // Append the download link to the document body
     document.body.appendChild(a);
 
@@ -443,12 +443,13 @@ function onAcessApproved(stream) {
     // Remove the download link from the document body
     document.body.removeChild(a);
 
+    pauseRecordingBtn.style.display = "flex";
+    resumeRecordingBtn.style.display = "none";
+
     if (url) {
       URL.revokeObjectURL(url);
     }
   };
-
-  recorder.start();
 }
 
 // check if the recorder is available
@@ -534,54 +535,17 @@ chrome.storage.local.get("permissions", (data) => {
   }
 });
 
-function startAudioRecording(audioState) {
-  if (audioState) {
-    navigator.mediaDevices
-      .getDisplayMedia({ audio: true })
-      .then((audioStream) => {
-        console.log(audioStream);
-        onAcessApproved(audioStream);
-      })
-      .catch((error) => {
-        console.error("Error accessing audio devices", error);
-      });
-  }
+function startAudioRecording() {
+  navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .then((stream) => {
+      audioStream = stream;
+      startRecordingIfReady();
+    })
+    .catch((error) => {
+      console.error("Error accessing audio devices:", error);
+    });
 }
-
-// function startAudioRecording() {
-//   navigator.mediaDevices
-//     .getUserMedia({ audio: true })
-//     .then((stream) => {
-//       audioStream = stream;
-//       startRecordingIfReady();
-//     })
-//     .catch((error) => {
-//       console.error("Error accessing audio devices:", error);
-//     });
-// }
-
-// function startRecording(globalData) {
-//   navigator.mediaDevices
-//     .getDisplayMedia({
-//       video: {
-//         displaySurface: "window",
-//       },
-//       audio: {
-//         echoCancellation: true,
-//         noiseSuppression: true,
-//         sampleRate: 44100,
-//         suppressLocalAudioPlayback: true,
-//       },
-//       surfaceSwitching: "include",
-//       selfBrowserSurface: "exclude",
-//       systemAudio: "exclude",
-//     })
-//     .then((stream) => {
-//       onAcessApproved(stream);
-//     });
-
-//   startCam(globalData.audio);
-// }
 
 // listen to the request-recording from index.html popup script
 
@@ -624,39 +588,6 @@ function startRecordingIfReady() {
   }
 }
 
-// function startRecording(stream) {
-//   recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
-
-//   recorder.onstop = function () {
-//     // Stop audio and video tracks
-//     audioStream.getTracks().forEach((track) => {
-//       if (track.readyState === "live") {
-//         track.stop();
-//       }
-//     });
-
-//     videoStream.getTracks().forEach((track) => {
-//       if (track.readyState === "live") {
-//         track.stop();
-//       }
-//     });
-//   };
-
-//   recorder.ondataavailable = function (event) {
-//     var blob = new Blob([event.data], { type: "video/webm" });
-//     var url = URL.createObjectURL(blob);
-//     var a = document.createElement("a");
-//     a.href = url;
-//     a.download = "test.webm";
-//     window.open(`${url}`, "_blank");
-//     if (url) {
-//       URL.revokeObjectURL(url);
-//     }
-//   };
-
-//   recorder.start();
-// }
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "request-recording") {
     console.log("Content Script - Requesting recording");
@@ -666,15 +597,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log(message, sender);
     // startRecording(globalData);
     startVideoRecording();
-    if (globalData.audio) {
-      startAudioRecording(globalData.audio);
-    }
+    startAudioRecording();
     console.log(globalData.audio);
   } else if (message.action === "camera-toggle") {
     console.log("Content Script - webcam toggled");
 
     sendResponse(`Processed ${message.action}`);
-    toggleCam();
+    toggleCam(globalData);
   } else if (message.action === "audio-toggle") {
     console.log("Content Script - audio toggled");
 
