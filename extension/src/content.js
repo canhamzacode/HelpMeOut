@@ -16,35 +16,14 @@ var cameraOffIcon = `
 </svg>
 `;
 var audioOffIcon = `
-<svg width="128" height="128" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
-    <path fill="" d="M10.8 4.9c0-.66.54-1.2 1.2-1.2s1.2.54 1.2 1.2l-.01 3.91L15 10.6V5c0-1.66-1.34-3-3-3c-1.54 0-2.79 1.16-2.96 2.65l1.76 1.76V4.9zM19 11h-1.7c0 .58-.1 1.13-.27 1.64l1.27 1.27c.44-.88.7-1.87.7-2.91zM4.41 2.86L3 4.27l6 6V11c0 1.66 1.34 3 3 3c.23 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52c-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28a7.13 7.13 0 0 0 2.55-.9l4.2 4.2l1.41-1.41L4.41 2.86z"/>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
+    <path fill="" stroke="#000000" stroke-width="0.002" d="M10.8 4.9c0-.66.54-1.2 1.2-1.2s1.2.54 1.2 1.2l-.01 3.91L15 10.6V5c0-1.66-1.34-3-3-3c-1.54 0-2.79 1.16-2.96 2.65l1.76 1.76V4.9zM19 11h-1.7c0 .58-.1 1.13-.27 1.64l1.27 1.27c.44-.88.7-1.87.7-2.91zM4.41 2.86L3 4.27l6 6V11c0 1.66 1.34 3 3 3c.23 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52c-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28a7.13 7.13 0 0 0 2.55-.9l4.2 4.2l1.41-1.41L4.41 2.86z"/>
 </svg>
 `;
 var audioOnIcon = `
-<svg
-    width="128"
-    height="128"
-    viewBox="0 0 512 512"
-    xmlns="http://www.w3.org/2000/svg"
-    class="icon"
-    >
-    <path
-        fill="none"
-        stroke="#000000"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="32"
-        d="M192 448h128m64-240v32c0 70.4-57.6 128-128 128h0c-70.4 0-128-57.6-128-128v-32m128 160v80"
-    />
-    <path
-        fill="none"
-        stroke="#000000"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="32"
-        d="M256 64a63.68 63.68 0 0 0-64 64v111c0 35.2 29 65 64 65s64-29 64-65V128c0-36-28-64-64-64Z"
-    />
-    </svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12 18.75C15.3137 18.75 18 16.0637 18 12.75V11.25M12 18.75C8.68629 18.75 6 16.0637 6 12.75V11.25M12 18.75V22.5M8.25 22.5H15.75M12 15.75C10.3431 15.75 9 14.4069 9 12.75V4.5C9 2.84315 10.3431 1.5 12 1.5C13.6569 1.5 15 2.84315 15 4.5V12.75C15 14.4069 13.6569 15.75 12 15.75Z" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
 `;
 var cameraOnIcon = `
   <svg
@@ -71,7 +50,7 @@ function updateUsercam(cam) {
 
 function updateAudioIcon(audio) {
   if (audio) {
-    microphoneBtn.innerHTML = audioOffIcon;
+    microphoneBtn.innerHTML = audioOnIcon;
   } else {
     microphoneBtn.innerHTML = audioOffIcon;
   }
@@ -190,6 +169,7 @@ if (styles.length > 0) {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer !important; 
   }
   .flex div {
     display: flex;
@@ -295,10 +275,6 @@ myStyle.textContent = `
   .controls {
     padding-left: 5px;
   }
-  .control i {
-    color: #141414;
-    font-size: 18px;
-  }
   #pause div.control{
     display: flex;
     align-items: center;
@@ -335,11 +311,8 @@ overlay.innerHTML = `
     </div>
     <div id="resume">
       <div class="control">
-        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="14" viewBox="0 0 2 14" fill="none">
-          <path d="M1 1.5L1 12.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="14" viewBox="0 0 2 14" fill="none">
-          <path d="M1 1.5L1 12.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
+        <svg width="100" height="30" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" class="icon">
+          <path fill="" d="M240 128a15.74 15.74 0 0 1-7.6 13.51L88.32 229.65a16 16 0 0 1-16.2.3A15.86 15.86 0 0 1 64 216.13V39.87a15.86 15.86 0 0 1 8.12-13.82a16 16 0 0 1 16.2.3l144.08 88.14A15.74 15.74 0 0 1 240 128Z"/>
         </svg>
       </div>
       <span> Resume</span>
@@ -410,16 +383,17 @@ var stopRecordingBtn = document.getElementById("stop");
 var resumeRecordingBtn = document.getElementById("resume");
 var pauseRecordingBtn = document.getElementById("pause");
 var cameraBtn = document.getElementById("camera");
-var microphoneBtn = document.getElementById("micropone");
+// var microphoneBtn = document.getElementById("micropone");
+var microphoneBtn = document.querySelector("#microphone .control");
 
 // recording stream handler
 var recorder = null;
-var isRecording = false;
+var audioStream = null;
+var videoStream = null;
 function onAcessApproved(stream) {
   console.log(stream);
   recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
   console.log(recorder.stream);
-  isRecording = true;
 
   recorder.onstop = function () {
     console.log(stream);
@@ -430,35 +404,47 @@ function onAcessApproved(stream) {
     });
   };
 
-  // recorder.onpause = function () {
-  //   console.log("Recording paused");
-  //   if (recorder.state === "recording") {
-  //     recorder.pause();
-  //     console.log("Recording paused");
-  //     isRecording = false;
-  //   } else if (recorder.state === "paused") {
-  //     recorder.resume();
-  //     console.log("Recording resumed");
-  //     isRecording = true;
+  // recorder.ondataavailable = function (event) {
+  //   console.log(stream);
+  //   var blob = new Blob([event.data], { type: "video/webm" });
+  //   var url = URL.createObjectURL(blob);
+  //   var a = document.createElement("a");
+  //   a.href = url;
+  //   a.download = "test.webm";
+
+  //   console.log(url);
+  //   let newUrl = url.split("/");
+  //   console.log(newUrl);
+  //   let lastIndex = newUrl.length - 1;
+  //   // Open the video in a new tab instead of downloading
+  //   // window.open(`http://localhost:5173/video/${newUrl[lastIndex]}`, "_blank");
+  //   window.open(`${url}`, "_blank");
+
+  //   if (url) {
+  //     URL.revokeObjectURL(url);
   //   }
-  //   console.log(recorder.stream, "After pause");
   // };
 
   recorder.ondataavailable = function (event) {
-    console.log(stream);
     var blob = new Blob([event.data], { type: "video/webm" });
     var url = URL.createObjectURL(blob);
+
+    // Create a download link for the recorded video
     var a = document.createElement("a");
     a.href = url;
-    a.download = "test.webm";
-    a.click();
+    a.download = "recorded_video.webm"; // Set the filename for the downloaded video
 
+    // Append the download link to the document body
     document.body.appendChild(a);
+
+    // Trigger a click event on the download link to initiate the download action
     a.click();
 
+    // Remove the download link from the document body
     document.body.removeChild(a);
+
     if (url) {
-      url.revokeObjectURL(url);
+      URL.revokeObjectURL(url);
     }
   };
 
@@ -469,9 +455,11 @@ function onAcessApproved(stream) {
 if (!recorder) {
   pauseRecordingBtn.disabled = true;
   stopRecordingBtn.disabled = true;
+  resumeRecordingBtn.disabled = true;
 } else {
   pauseRecordingBtn.disabled = false;
   stopRecordingBtn.disabled = false;
+  resumeRecordingBtn.disabled = true;
 }
 
 var webcamStream = null;
@@ -515,6 +503,24 @@ function startCam(audioState) {
   }
 }
 
+// toggle camera
+function toggleCam(globalData) {
+  userCam.style.display = globalData.webcam ? "flex" : "none";
+  globalData.webcam ? startCam(globalData.audio) : stopCam();
+
+  // Start or stop webcam stream based on toggle state
+  if (globalData.webcam) {
+    startCam(globalData.audio);
+  } else {
+    // Stop webcam stream if it's running
+    stopCam();
+    if (userCam.srcObject) {
+      userCam.srcObject.getTracks().forEach((track) => track.stop());
+      userCam.srcObject = null;
+    }
+  }
+}
+
 chrome.storage.local.get("permissions", (data) => {
   if (data && data.permissions) {
     globalData = data.permissions;
@@ -528,7 +534,129 @@ chrome.storage.local.get("permissions", (data) => {
   }
 });
 
+function startAudioRecording(audioState) {
+  if (audioState) {
+    navigator.mediaDevices
+      .getDisplayMedia({ audio: true })
+      .then((audioStream) => {
+        console.log(audioStream);
+        onAcessApproved(audioStream);
+      })
+      .catch((error) => {
+        console.error("Error accessing audio devices", error);
+      });
+  }
+}
+
+// function startAudioRecording() {
+//   navigator.mediaDevices
+//     .getUserMedia({ audio: true })
+//     .then((stream) => {
+//       audioStream = stream;
+//       startRecordingIfReady();
+//     })
+//     .catch((error) => {
+//       console.error("Error accessing audio devices:", error);
+//     });
+// }
+
+// function startRecording(globalData) {
+//   navigator.mediaDevices
+//     .getDisplayMedia({
+//       video: {
+//         displaySurface: "window",
+//       },
+//       audio: {
+//         echoCancellation: true,
+//         noiseSuppression: true,
+//         sampleRate: 44100,
+//         suppressLocalAudioPlayback: true,
+//       },
+//       surfaceSwitching: "include",
+//       selfBrowserSurface: "exclude",
+//       systemAudio: "exclude",
+//     })
+//     .then((stream) => {
+//       onAcessApproved(stream);
+//     });
+
+//   startCam(globalData.audio);
+// }
+
 // listen to the request-recording from index.html popup script
+
+function startVideoRecording() {
+  navigator.mediaDevices
+    .getDisplayMedia({
+      video: {
+        displaySurface: "window",
+      },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44100,
+        suppressLocalAudioPlayback: true,
+      },
+      surfaceSwitching: "include",
+      selfBrowserSurface: "exclude",
+      systemAudio: "exclude",
+    })
+    .then((stream) => {
+      videoStream = stream;
+      startRecordingIfReady();
+    })
+    .catch((error) => {
+      console.error("Error accessing video devices:", error);
+    });
+}
+
+function startRecordingIfReady() {
+  if (audioStream && videoStream) {
+    // Merge audio and video streams into a single MediaStream
+    console.log("Audio Stream", audioStream);
+    console.log("Video Stream", videoStream);
+    const combinedStream = new MediaStream([
+      ...audioStream.getAudioTracks(),
+      ...videoStream.getVideoTracks(),
+    ]);
+    console.log("Combined Stream", combinedStream);
+    onAcessApproved(combinedStream);
+  }
+}
+
+// function startRecording(stream) {
+//   recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+
+//   recorder.onstop = function () {
+//     // Stop audio and video tracks
+//     audioStream.getTracks().forEach((track) => {
+//       if (track.readyState === "live") {
+//         track.stop();
+//       }
+//     });
+
+//     videoStream.getTracks().forEach((track) => {
+//       if (track.readyState === "live") {
+//         track.stop();
+//       }
+//     });
+//   };
+
+//   recorder.ondataavailable = function (event) {
+//     var blob = new Blob([event.data], { type: "video/webm" });
+//     var url = URL.createObjectURL(blob);
+//     var a = document.createElement("a");
+//     a.href = url;
+//     a.download = "test.webm";
+//     window.open(`${url}`, "_blank");
+//     if (url) {
+//       URL.revokeObjectURL(url);
+//     }
+//   };
+
+//   recorder.start();
+// }
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "request-recording") {
     console.log("Content Script - Requesting recording");
@@ -536,66 +664,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse(`Processed ${message.action}`);
 
     console.log(message, sender);
-
+    // startRecording(globalData);
+    startVideoRecording();
+    if (globalData.audio) {
+      startAudioRecording(globalData.audio);
+    }
     console.log(globalData.audio);
-    navigator.mediaDevices
-      .getDisplayMedia({
-        video: {
-          displaySurface: "window",
-        },
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          sampleRate: 44100,
-          suppressLocalAudioPlayback: true,
-        },
-        surfaceSwitching: "include",
-        selfBrowserSurface: "exclude",
-        systemAudio: "exclude",
-      })
-      .then((stream) => {
-        onAcessApproved(stream);
-      });
-
-    startCam(globalData.audio);
   } else if (message.action === "camera-toggle") {
     console.log("Content Script - webcam toggled");
 
     sendResponse(`Processed ${message.action}`);
-    userCam.style.display = globalData.webcam ? "flex" : "none";
-    globalData.webcam ? startCam(globalData.audio) : stopCam();
-
-    // Start or stop webcam stream based on toggle state
-    if (globalData.webcam) {
-      startCam(globalData.audio);
-    } else {
-      // Stop webcam stream if it's running
-      stopCam();
-      if (userCam.srcObject) {
-        userCam.srcObject.getTracks().forEach((track) => track.stop());
-        userCam.srcObject = null;
-      }
-    }
+    toggleCam();
   } else if (message.action === "audio-toggle") {
     console.log("Content Script - audio toggled");
 
-    var microphoneBtn = document.querySelector("#microphone .control");
+    // var microphoneBtn = document.querySelector("#microphone .control");
     if (globalData.audio) {
-      microphoneBtn.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M12 18.75C15.3137 18.75 18 16.0637 18 12.75V11.25M12 18.75C8.68629 18.75 6 16.0637 6 12.75V11.25M12 18.75V22.5M8.25 22.5H15.75M6 8.25L18 8.25" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      `;
+      microphoneBtn.innerHTML = audioOnIcon;
     } else {
-      microphoneBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M12 18.75C15.3137 18.75 18 16.0637 18 12.75V11.25M12 18.75C8.68629 18.75 6 16.0637 6 12.75V11.25M12 18.75V22.5M8.25 22.5H15.75M12 15.75C10.3431 15.75 9 14.4069 9 12.75V4.5C9 2.84315 10.3431 1.5 12 1.5C13.6569 1.5 15 2.84315 15 4.5V12.75C15 14.4069 13.6569 15.75 12 15.75Z" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
+      microphoneBtn.innerHTML = audioOffIcon;
     }
   }
 });
 
-pauseRecordingBtn.style.display = "flex !important"; // Initially hide pause button
-resumeRecordingBtn.style.display = "none !important"; // Initially hide resume button
+pauseRecordingBtn.style.display = "flex"; // Initially hide pause button
+resumeRecordingBtn.style.display = "none"; // Initially hide resume button
 
 // Listeners for stop and pause buttons:
 
@@ -606,8 +699,8 @@ stopRecordingBtn.addEventListener("click", () => {
   recorder.stop();
 
   // Show only pause button after stop
-  pauseRecordingBtn.style.display = "flex !important";
-  resumeRecordingBtn.style.display = "none !important";
+  pauseRecordingBtn.style.display = "flex";
+  resumeRecordingBtn.style.display = "none";
 });
 
 pauseRecordingBtn.addEventListener("click", () => {
@@ -632,4 +725,9 @@ resumeRecordingBtn.addEventListener("click", () => {
     recorder.state === "paused" ? "none" : "flex";
   resumeRecordingBtn.style.display =
     recorder.state === "paused" ? "flex" : "none";
+});
+
+cameraBtn.addEventListener("click", () => {
+  console.log("I got clicked toggle");
+  toggleCam(globalData);
 });
